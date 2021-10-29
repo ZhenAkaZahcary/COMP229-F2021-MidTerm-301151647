@@ -68,10 +68,25 @@ router.get('/:id', (req, res, next) => {
 
 // POST - process the information passed from the details form and update the document
 router.post('/:id', (req, res, next) => {
-
-    /*****************
-     * ADD CODE HERE *
-     *****************/
+    let id = req.params.id;
+    //instantiate a book ojbect based on the infomation in the form
+    let updatedBook = book({
+      "_id" : id,
+      "Title": req.body.title,
+      "Price": req.body.price,
+      "Author": req.body.author,
+      "Genre": req.body.genre 
+    });
+      //update book that matches the id and redirect to books index page
+    book.update({_id: id}, updatedBook, (err) => {
+      if(err){
+        res.end(err);
+      }
+      else{
+        res.redirect('/books');
+      }
+    });
+    
 
 });
 
